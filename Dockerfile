@@ -2,7 +2,7 @@ FROM golang
 
 ARG BRANCH=r1.13
 ARG PROTOC_VERSION=3.8.0
-ARG PROTOC_GO_VERSION=v1.3.1
+ARG PROTOC_GO_VERSION=v1.2.0
 WORKDIR /usr/src
 
 RUN apt-get -y update && apt-get -y install git curl unzip && \
