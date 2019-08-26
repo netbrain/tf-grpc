@@ -2,22 +2,24 @@
 
 IMAGE := tensorflow-serving-grpc
 
-build: build-image build-api
+go: build-go-image copy-vendor
+java: build-java-image copy-vendor
 
 clean:
-	-docker rmi -f $(IMAGE)
+	rm -rf vendor && \
+	docker rmi -f $(IMAGE)
 
-build-image:
-	docker build -t $(IMAGE) .
+build-go-image:
+	docker build -t $(IMAGE) -f Dockerfile.go .
 
-build-api: 
+build-java-image:
+	docker build -t $(IMAGE) -f Dockerfile.java .
+
+copy-vendor: 
 	CONTAINER_ID=$$(docker run -d $(IMAGE)); \
 	docker wait $${CONTAINER_ID} ; \
 	docker cp $${CONTAINER_ID}:/usr/src/vendor ./; \
 	docker rm -f $${CONTAINER_ID};
 
-interactive: build-image 
+interactive:
 	docker run -it --rm $(IMAGE) bash
-
-master: build-api
-	rm -rf go && mv vendor/github.com/netbrain/tf-grpc/go .
