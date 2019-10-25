@@ -10,10 +10,10 @@ clean:
 	docker rmi -f $(IMAGE)
 
 build-go-image:
-	docker build -t $(IMAGE) -f Dockerfile.go .
+	docker build -t $(IMAGE) -f dockerfiles/Dockerfile.go .
 
 build-java-image:
-	docker build -t $(IMAGE) -f Dockerfile.java .
+	docker build -t $(IMAGE) -f dockerfiles/Dockerfile.java .
 
 copy-vendor: 
 	CONTAINER_ID=$$(docker run -d $(IMAGE)); \
